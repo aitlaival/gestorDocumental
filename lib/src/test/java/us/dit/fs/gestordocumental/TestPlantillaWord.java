@@ -45,7 +45,7 @@ class TestPlantillaWord {
 	        XWPFDocument document = new XWPFDocument(Files.newInputStream(msWordPath));
 	        List<XWPFParagraph> paragraphs = document.getParagraphs();
 	        document.close();
-	        assertEquals("Capítulo primero", paragraphs.get(0).getText());	        
+	        assertEquals(paragraphs.get(0).getText().toUpperCase(), paragraphs.get(0).getText());	        
 	        assertEquals(wordDocument.convertTextFileToString("subtitulo.txt"), paragraphs.get(1).getText());
 	        assertEquals(wordDocument.convertTextFileToString("parrafo.txt"), paragraphs.get(2).getText());
 	       

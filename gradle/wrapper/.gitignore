@@ -1,0 +1,2 @@
+#No quiero subir el fichero de configuración de gradle, porque contiene secretos
+gradle.properties

@@ -85,7 +85,8 @@ public class PlantillaWord {
     	XWPFParagraph title = document.createParagraph();
         title.setAlignment(ParagraphAlignment.CENTER);
         XWPFRun titleRun = title.createRun();
-        titleRun.setText(titulo);
+        String tituloMay = titulo.toUpperCase();
+        titleRun.setText(tituloMay);
         titleRun.setColor("FF4500");       
         titleRun.setFontFamily("Courier");
         titleRun.setFontSize(12);
