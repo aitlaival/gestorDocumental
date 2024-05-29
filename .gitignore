@@ -1,1 +1,4 @@
-/.gradle/
+# Ignore Gradle project-specific cache directory
+.gradle
+#No quiero subir el fichero de configuración de gradle, porque contiene secretos
+gradle.properties
