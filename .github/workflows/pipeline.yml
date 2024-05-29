@@ -1,0 +1,69 @@
+name: Flujo de trabajo para examen practicas Software
+on:
+  push:
+  pull_request:
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_LOGIN: ${{ github.actor }}
+      GITHUB_PACKAGES: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Clonando el repositorio y estableciendo el espacio de trabajo
+        uses: actions/checkout@v3
+      - name: Configurando java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '16'
+      - name: Construyendo y probando el código
+        run: |
+          chmod +x gradlew        
+          ./gradlew jar
+  Test:
+    needs: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonando el repositorio y estableciendo el espacio de trabajo
+        uses: actions/checkout@v3
+      - name: Configurando java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '16'
+      - name: Ejecutando pruebas
+        run: |
+          chmod +x gradlew        
+          ./gradlew test
+  Publish:
+    needs: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonando el repositorio y estableciendo el espacio de trabajo
+        uses: actions/checkout@v3
+      - name: Configurando java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '16'
+      - name: Publicando el artefacto
+        run: 
+          chmod +x gradlew        
+          ./gradlew publish
+      - run: echo "El desarrollador que está intentado subir la versión es ${{github.repository_owner }}."
+      - name: Send Email
+        uses: hilarion5/send-mail@v1
+        with:
+          smtp-server: smtp.example.com
+          smtp-port: 465
+          smtp-secure: true
+          from-email: gildok34500@gmail.com
+          to-email: irm@us.es
+          username: ${{ secrets.usuCorreo }}
+          password: ${{ secrets.passCorreo }}
+          subject: Email de verificacion
+          body: Este email se envia desde GitHub Actions
+          html: |
+            <h1>Este es un email de verificacion</h1>
+            <p>Se ha publicado un nuevo artefacto</p>
